@@ -29,10 +29,10 @@ jobs:
     - run: |
         
         runnable=true
-        if [ -z "$header" ] && [ -z "$pictureExtensions" ] && ( [ -s .github/workflows/header.txt ] || [ -s .github/workflows/extensions.txt ] ); then runnable=false; fi        
+        if [ -z "$header" ] && [ -z "$pictureExtensions" ] && ( ! [ -s .github/workflows/header.txt ] || ! [ -s .github/workflows/extensions.txt ] ); then runnable=false; fi        
         if [ -f ".github/workflows/header.txt" ]; then if [ -z "$header" ]; then header=$(cat .github/workflows/header.txt); fi; fi
         if [ -f ".github/workflows/extensions.txt" ]; then if [ -z "$pictureExtensions" ]; then pictureExtensions=$(cat .github/workflows/extensions.txt); fi; fi
-        
+              
         echo "$header" > .github/workflows/header.txt
         echo "$pictureExtensions" > .github/workflows/extensions.txt
 
