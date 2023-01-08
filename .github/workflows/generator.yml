@@ -34,6 +34,9 @@ jobs:
         if [ -z "$header" ]; then header=$(cat ../.github/workflows/header.txt); fi
         if [ -z "$pictureExtensions" ]; then pictureExtensions=$(cat ../.github/workflows/extensions.txt); fi
         
+        echo "$header" > ../.github/workflows/header.txt
+        echo "$pictureExtensions" > ../.github/workflows/extensions.txt
+
         githubName=$(echo $nameAndRepo | cut -d '/' -f 1)
         repo=$(echo $nameAndRepo | cut -d '/' -f 2)
         
