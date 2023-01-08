@@ -20,7 +20,7 @@ jobs:
     env:
       header: ${{ inputs.header }}
       pictureExtensions: ${{ inputs.pictureExtensions }}
-      repo: ${{ github.repository }}  
+      nameAndRepo: ${{ github.repository }}  
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v4
@@ -29,9 +29,18 @@ jobs:
     - run: |
         cd readme-generator
         
-        echo "header: $header"
-        echo "pictureExtensions: $pictureExtensions"
-        echo "Repo: $repo"
+        echo "header: !$header!"
+        echo "pictureExtensions: !$pictureExtensions!"
+        echo "name and repo: $nameAndRepo"
+        githubName=$(echo $nameAndRepo | cut -d '/' -f 1)
+        repo=$(echo $nameAndRepo | cut -d '/' -f 2)
+        echo "name: $githubName"
+        echo "repo: $repo"
+        
+        if [ -z "$header" ]; then echo "no header provided!"; fi
+        if [ -z "$pictureExtensions" ]; then echo "no extensions provided!"; fi
+        
+        ls
         
         # python generator.py 
       
