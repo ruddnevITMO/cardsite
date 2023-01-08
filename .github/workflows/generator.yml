@@ -1,0 +1,39 @@
+name: Generate README.md to serve
+on:
+  workflow_dispatch:
+    inputs:
+        header:
+          description: 'Заголовок страницы'
+          required: false
+          default: 'Материалы для подготовки'
+        pictureExtensions:
+          description: 'Расширение файлов картинок'
+          required: false
+          type: choice
+          options:
+          - .png
+          - .jpg
+          - .jpeg
+jobs:
+  generator:
+    runs-on: ubuntu-latest
+    env:
+      header: ${{ inputs.header }}
+      pictureExtensions: ${{ inputs.pictureExtensions }}
+      repo: ${{ github.repository }}  
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' 
+    - run: |
+        python -m pip install --upgrade pip
+        python -m pip install urllib
+        cd readme-generator
+        
+        echo "header: $header"
+        echo "pictureExtensions: $pictureExtensions"
+        echo "Repo: $repo"
+        
+        # python generator.py 
+      
