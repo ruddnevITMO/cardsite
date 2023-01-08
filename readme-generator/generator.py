@@ -23,6 +23,7 @@ if __name__ == '__main__':
         print("Неверное количество аргументов")
         sys.exit()
 
+    altFileExtension = fileExtension
     obfuscateContents = True
     writeToReadme = True
     printing = False
@@ -46,6 +47,7 @@ if __name__ == '__main__':
     if writeToReadme:
         readme = open("../README.md", "w", encoding='utf-8')
 
+
     def printWrite(*args):
         line = ' '.join([str(arg) for arg in args])
         if writeToReadme:
@@ -67,7 +69,13 @@ if __name__ == '__main__':
     linkTemplate = "https://" + githubName + ".github.io/" + repoName + "/#"
     linkToTop = linkTemplate + quote(quoteConvert(header))
 
-    alts = [int(i[:-4]) for i in os.listdir("../altCards")]
+    alts = []
+
+    altsDir = os.listdir("../altCards")
+    for file in altsDir:
+        if re.search(r"[0-9]+\.(jpg|png|jpeg)", file):
+            alts.append(int(re.match(r"[0-9]+(?=\.(jpg|png|jpeg))", file).group()))
+
     altsLink = "https://raw.githubusercontent.com/" + githubName + "/" + repoName + "/main/altCards/"
 
     # Заголовок
@@ -95,6 +103,6 @@ if __name__ == '__main__':
         printWrite("![" + cards[n] + "](" + imageLinkTemplate + str(n) + fileExtension + ")")
         if n in alts:
             printWrite("### Альтернативный билет для ", cards[n], "[" + str(n) + "] [наверх](" + linkToTop + ")")
-            printWrite("![" + cards[n] + "](" + altsLink + str(n) + fileExtension + ")")
+            printWrite("![" + cards[n] + "](" + altsLink + str(n) + altFileExtension + ")")
         printWrite("---")
 
