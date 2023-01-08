@@ -27,15 +27,14 @@ jobs:
       with:
         python-version: '3.10' 
     - run: |
-        cd readme-generator
         
         runnable=true
-        if [ -z "$header" ] && [ -z "$pictureExtensions" ] && ( [ -s ../.github/workflows/header.txt ] || [ -s ../.github/workflows/extensions.txt ] ); then runnable=false; fi        
-        if [ -z "$header" ]; then header=$(cat ../.github/workflows/header.txt); fi
-        if [ -z "$pictureExtensions" ]; then pictureExtensions=$(cat ../.github/workflows/extensions.txt); fi
+        if [ -z "$header" ] && [ -z "$pictureExtensions" ] && ( [ -s .github/workflows/header.txt ] || [ -s .github/workflows/extensions.txt ] ); then runnable=false; fi        
+        if [ -f ".github/workflows/header.txt" ]; then if [ -z "$header" ]; then header=$(cat .github/workflows/header.txt); fi; fi
+        if [ -f ".github/workflows/extensions.txt" ]; then if [ -z "$pictureExtensions" ]; then pictureExtensions=$(cat .github/workflows/extensions.txt); fi; fi
         
-        echo "$header" > ../.github/workflows/header.txt
-        echo "$pictureExtensions" > ../.github/workflows/extensions.txt
+        echo "$header" > .github/workflows/header.txt
+        echo "$pictureExtensions" > .github/workflows/extensions.txt
 
         githubName=$(echo $nameAndRepo | cut -d '/' -f 1)
         repo=$(echo $nameAndRepo | cut -d '/' -f 2)
@@ -48,5 +47,5 @@ jobs:
         
         
         
-        if [ "$runnable" -eq "false" ]; then echo "can't run!"; else python generator.py "$githubName" "$repoName" "$header" "$pictureExtensions"; cd ../; git commit -am "generating README.md"; git push; fi
+        if [ "$runnable" -eq "false" ]; then echo "can't run!"; else cd readme-generator; python generator.py "$githubName" "$repoName" "$header" "$pictureExtensions"; cd ../; git commit -am "generating README.md"; git push; fi
       
