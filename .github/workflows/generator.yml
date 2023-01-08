@@ -29,18 +29,21 @@ jobs:
     - run: |
         cd readme-generator
         
-        echo "header: !$header!"
-        echo "pictureExtensions: !$pictureExtensions!"
-        echo "name and repo: $nameAndRepo"
+        runnable=true
+        if [ -z "$header" ] && [ -z "$pictureExtensions" ] && ( [ -s ../.github/workflows/header.txt ] || [ -s ../.github/workflows/extensions.txt ] ); then runnable=false; fi        
+        if [ -z "$header" ]; then header=$(cat ../.github/workflows/header.txt); fi
+        if [ -z "$pictureExtensions" ]; then pictureExtensions=$(cat ../.github/workflows/extensions.txt); fi
+        
         githubName=$(echo $nameAndRepo | cut -d '/' -f 1)
         repo=$(echo $nameAndRepo | cut -d '/' -f 2)
+        
+        echo "$runnable"
+        echo "header: $header"
+        echo "pictureExtensions: $pictureExtensions"
         echo "name: $githubName"
         echo "repo: $repo"
         
-        if [ -z "$header" ]; then echo "no header provided!"; fi
-        if [ -z "$pictureExtensions" ]; then echo "no extensions provided!"; fi
         
-        ls
         
-        # python generator.py 
+        if [ "$runnable" -eq "false" ]; then echo "can't run!"; else python generator.py "$githubName" "$repoName" "$header" "$pictureExtensions"; cd ../; git commit -am "generating README.md"; git push; fi
       
