@@ -5,12 +5,12 @@ on:
         header:
           description: 'Заголовок страницы'
           required: false
-          default: 'Материалы для подготовки'
         pictureExtensions:
           description: 'Расширение файлов картинок'
           required: false
           type: choice
           options:
+          - ""
           - .png
           - .jpg
           - .jpeg
