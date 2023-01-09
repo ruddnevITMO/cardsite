@@ -47,5 +47,5 @@ jobs:
         echo "name: $githubName"
         echo "repo: $repo"
         
-        if [ "$runnable" = "false" ]; then echo "can't run!"; else cd readme-generator; python generator.py "$githubName" "$repo" "$header" "$pictureExtensions"; cd ../; git commit -am "generating README.md"; git push; fi
+        if [ "$runnable" = "false" ]; then echo "can't run!"; else python generator.py "$githubName" "$repo" "$header" "$pictureExtensions"; cd ../; git commit -am "generating README.md"; git push; fi
       
