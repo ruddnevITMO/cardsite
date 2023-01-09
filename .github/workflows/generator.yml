@@ -45,5 +45,7 @@ jobs:
         echo "name: $githubName"
         echo "repo: $repo"
         
+        cat readme-generator/cardsList.txt
+        
         if [ "$runnable" = "false" ]; then echo "can't run!"; else cd readme-generator; python generator.py "$githubName" "$repoName" "$header" "$pictureExtensions"; cd ../; git commit -am "generating README.md"; git push; fi
       
