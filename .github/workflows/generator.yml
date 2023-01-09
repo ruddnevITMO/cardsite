@@ -1,5 +1,10 @@
 name: Generate README.md to serve
 on:
+  push:
+      paths:
+        - 'cards/**'
+        - 'altCards/**'
+        - 'cardsList.txt'
   workflow_dispatch:
     inputs:
         header:
