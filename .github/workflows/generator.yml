@@ -29,13 +29,14 @@ jobs:
     - run: |
         git config --global user.name "GitHub Action"
         git config --global user.email "noreply@github.com"
+        cd readme-generator
         runnable=true
-        if ( [ -z "$header" ] && ! [ -s .github/workflows/header.txt ] ) || ( [ -z "$pictureExtensions" ] && ! [ -s .github/workflows/extensions.txt ] ); then runnable=false; fi        
-        if [ -f ".github/workflows/header.txt" ]; then if [ -z "$header" ]; then header=$(cat .github/workflows/header.txt); fi; fi
-        if [ -f ".github/workflows/extensions.txt" ]; then if [ -z "$pictureExtensions" ]; then pictureExtensions=$(cat .github/workflows/extensions.txt); fi; fi
+        if ( [ -z "$header" ] && ! [ -s "header.txt" ] ) || ( [ -z "$pictureExtensions" ] && ! [ -s "extensions.txt" ] ); then runnable=false; fi        
+        if [ -f "header.txt" ]; then if [ -z "$header" ]; then header=$(cat header.txt); fi; fi
+        if [ -f "extensions.txt" ]; then if [ -z "$pictureExtensions" ]; then pictureExtensions=$(cat extensions.txt); fi; fi
               
-        echo "$header" > .github/workflows/header.txt
-        echo "$pictureExtensions" > .github/workflows/extensions.txt
+        echo "$header" > header.txt
+        echo "$pictureExtensions" > extensions.txt
 
         githubName=$(echo $nameAndRepo | cut -d '/' -f 1)
         repo=$(echo $nameAndRepo | cut -d '/' -f 2)
