@@ -29,7 +29,7 @@ if __name__ == '__main__':
     printing = False
 
     cards = ["0"]
-    with open("cardsList.txt", encoding="utf-8") as namesFile:
+    with open("../cardsList.txt", encoding="utf-8") as namesFile:
         for line in namesFile:
             if line.strip() == "":
                 print("Нашел пустую строку в cardsList.txt")
